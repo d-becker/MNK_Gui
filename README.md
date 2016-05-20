@@ -6,3 +6,5 @@ Dependencies:
 - TicTacToe (https://github.com/d-becker/TicTacToe)
 
 The header files of these projects are included as <WidgetLib/something.hpp> and <TicTacToe/something.hpp> to avoid possible name collosions.
+
+The program should be started from the directory that contains SDL_Fonts so that the program can find the fonts.

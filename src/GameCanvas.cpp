@@ -22,7 +22,8 @@ GameCanvas::GameCanvas(wl::Vec2 position,
 	if (evt.getEvtType() == wl::MouseEvent::CLICKED_ON_WIDGET
 	    && evt.getMouseButton() == wl::MouseEvent::MOUSE_BTN::LEFT)
 	{
-	  ttt::Vec2 cell_coords = get_cell_by_mouse_pos(evt.getMousePos());
+	  const ttt::Vec2 cell_coords = get_cell_by_mouse_pos(evt.getMousePos()
+							      - getPosition());
 	  if (m_game_flow)
 	    m_game_flow->takeMove(cell_coords);
 	  return true;

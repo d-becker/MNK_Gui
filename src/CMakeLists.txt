@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 
 set(SRC_FILES
 	GameCanvas.cpp
+	WinnerLabel.cpp
    )
 
 set(LIBS

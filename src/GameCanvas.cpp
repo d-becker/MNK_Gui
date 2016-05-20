@@ -4,6 +4,7 @@
 
 #include <WidgetLib/evt/MouseEvent.hpp>
 #include <WidgetLib/evt/ObserverAdapter.hpp>
+#include <WidgetLib/Util.hpp> // For vect_contains
 
 namespace ttt {
 
@@ -63,17 +64,21 @@ void GameCanvas::paint()
 	  canv << move_to(m_offset_x + i * m_cellsize,
 			  m_offset_y + j * m_cellsize);
 
+	  bool winning_cell = is_cell_winning(i, j);
+	  const genv::color bg = winning_cell ? m_win_background : background;
+	  
 	  int player = board->get(i, j);
 	  genv::color circle(0, 0, 0);
+	  bool draw_circle = true;
 	  switch (player)
 	  {
-	  case 0 : {circle = background; break;}
+	  case 0 : {draw_circle = false; break;}
 	  case 1 : {circle = genv::color(255, 0, 0); break;}
 	  case 2 : {circle = genv::color(0, 0, 255); break;}
 	  default: break;
 	  }
 	  
-	  paint_cell(canv, background, circle);
+	  paint_cell(canv, bg, draw_circle, circle);
 	}
       }
     }
@@ -114,7 +119,8 @@ void GameCanvas::calculate_size_info(std::shared_ptr<const Board> board)
 
 void GameCanvas::paint_cell(genv::canvas& canv,
 			    genv::color bg,
-			    genv::color circle,
+			    bool draw_circle,
+			    genv::color circle_colour,
 			    genv::color border)
 {
   using namespace genv;
@@ -130,8 +136,12 @@ void GameCanvas::paint_cell(genv::canvas& canv,
        << line(0, m_cellsize);
   
   // Circle
+  if (!draw_circle) // No need to draw a circle with
+		    // the same colour as the background
+    return;
+  
   canv << move(-m_cellsize / 2, -m_cellsize / 2);
-  canv << circle;
+  canv << circle_colour;
   const int radius = m_cellsize * 0.4;
   for (int i = -radius; i <= radius; ++i)
   {
@@ -153,6 +163,23 @@ ttt::Vec2 GameCanvas::get_cell_by_mouse_pos(const wl::Vec2& pos) const
   int y_coord = (pos.y - m_offset_y) / m_cellsize;
 
   return Vec2(x_coord, y_coord);
+}
+
+bool GameCanvas::is_cell_winning(int x, int y) const
+{
+  if (!m_game_flow)
+    return false;
+
+  Vec2 pos(x, y);
+  const std::vector< std::vector<Vec2> >& winners_pos
+                                          = m_game_flow->getWinnersPositions();
+  for (const std::vector<Vec2>& vec : winners_pos)
+  {
+    if (wl::vec_contains(vec, pos))
+	return true;
+  }
+  
+  return false;  
 }
 
 } // namespace ttt

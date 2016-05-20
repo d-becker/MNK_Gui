@@ -26,9 +26,11 @@ private:
   void calculate_size_info(std::shared_ptr<const Board> board);
   void paint_cell(genv::canvas& canv,
 		  genv::color bg,
-		  genv::color circle,
+		  bool draw_circle,
+		  genv::color circle_colour,
 		  genv::color border = genv::color(0, 0, 0));
   ttt::Vec2 get_cell_by_mouse_pos(const wl::Vec2& pos) const;
+  bool is_cell_winning(int x, int y) const;
   
   GameFlow *m_game_flow;
   int m_cellsize;

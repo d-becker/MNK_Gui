@@ -31,11 +31,11 @@ int main()
   GameCanvas *gcanv = new GameCanvas(wl::Vec2(0, BAR_HEIGHT), WIDTH, HEIGHT - BAR_HEIGHT, gf);
   Label *cols_label = new Label(wl::Vec2(5, 5), 100, 25, "Columns");
   NumberSpinner<int> *cols_spinner = new NumberSpinner<int>(wl::Vec2(5, 35), 100, 25,
-						    5, 50, 1, 9);
+						    5, 50, 1, 10);
 
   Label *rows_label = new Label(wl::Vec2(115, 5), 100, 25, "Rows");
   NumberSpinner<int> *rows_spinner = new NumberSpinner<int>(wl::Vec2(115, 35), 100, 25,
-						     5, 50, 1, 11);
+						     5, 50, 1, 10);
 
   Button *b_new_game = new Button(wl::Vec2(220, 35), 50, 25);
   b_new_game->addObserver(std::make_shared< ObserverAdapter<ButtonEvent> >(

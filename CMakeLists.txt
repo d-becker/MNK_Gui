@@ -11,5 +11,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -g -Wall")
 set(CPACK_SOURCE_IGNORE_FILES "bin;.*~;")
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
+include_directories("${PROJECT_SOURCE_DIR}/lib/include")
+link_directories("${PROJECT_SOURCE_DIR}/lib")
 
 add_subdirectory(src)
